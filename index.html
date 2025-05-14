@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Web DJ - Modern Mix</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="site-banner">
+        <div class="logo-placeholder">
+            <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-labelledby="siteLogoTitle" role="img">
+                <title id="siteLogoTitle">YouTube Web DJ Logo</title>
+                <defs>
+                    <linearGradient id="waveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:var(--primary-accent-color); stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:color-mix(in srgb, var(--primary-accent-color) 60%, var(--secondary-accent-color)); stop-opacity:1" />
+                    </linearGradient>
+                    <style>
+                        .wave-bar { fill: url(#waveGradient); }
+                        .play-icon-svg { fill: var(--secondary-accent-color); }
+                    </style>
+                </defs>
+                <rect class="wave-bar" x="15" y="50" width="12" height="30" rx="3"/>
+                <rect class="wave-bar" x="35" y="30" width="12" height="50" rx="3"/>
+                <path class="play-icon-svg" d="M 41 55 L 41 35 L 53 45 Z" />
+                <rect class="wave-bar" x="57" y="40" width="12" height="40" rx="3"/>
+                <rect class="wave-bar" x="77" y="55" width="12" height="25" rx="3"/>
+            </svg>
+        </div>
+        <span class="site-name">YouTube Web Deck DJ</span>
+    </div>
+
+    <div id="adsense-top-banner" class="adsense-banner-container" aria-label="Advertisement Top">
+        <p class="adsense-placeholder-text">Top Ad Banner Placeholder</p>
+    </div>
+
+    <div class="global-controls">
+        <button id="toggle-deck-view-button" class="subtle-button" title="Switch between 2 and 4 deck view">
+            <i class="fas fa-layer-group"></i> <span>Show 4 Decks</span>
+        </button>
+    </div>
+
+    <div class="main-container">
+        <div class="dj-interface">
+            <div class="decks-container">
+                <div class="deck" id="deck1">
+                    <div class="deck-header">
+                        <div class="deck-title-area">
+                            <h2>Deck 1</h2>
+                            <div class="track-title-display" title="Currently loaded track title">No track loaded</div>
+                        </div>
+                        <button class="video-toggle-button" title="Show/Hide Video Player" data-deck-id="deck1" aria-pressed="false">
+                            <i class="fas fa-eye"></i><i class="fas fa-eye-slash" style="display:none;"></i>
+                        </button>
+                    </div>
+                    <div class="player-container">
+                        <div id="player1" class="youtube-player"></div>
+                    </div>
+                    <div class="controls">
+                        <div class="control-group track-load-group">
+                            <input type="text" class="youtube-url" placeholder="YouTube URL or ID" title="Enter YouTube video URL or ID to load a track.">
+                            <button class="load-button icon-button" disabled title="Load Track: Paste a YouTube URL or Video ID into the field and click here."><i class="fas fa-plus-circle"></i></button>
+                        </div>
+
+                        <div class="control-group playback-group">
+                            <div class="playback-actions-column">
+                                <button class="play-pause-toggle icon-button" data-deck-id="deck1" title="Play Track" aria-pressed="false">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <button class="play-with-deck-button icon-button" data-target-deck="deck2" title="Sync start playback with D2">
+                                    <i class="fas fa-link"></i> Play with D2
+                                </button>
+                                <div class="tap-bpm-row">
+                                    <button class="tap-tempo-button" data-deck-id="deck1" title="Tap Tempo: Click repeatedly to the beat of the music to set BPM. Requires at least 4 taps.">
+                                        <i class="fas fa-hand-point-up"></i> Tap
+                                    </button>
+                                    <label for="bpm-deck1" class="control-label visually-hidden">BPM:</label>
+                                    <input type="number" id="bpm-deck1" class="bpm-input" min="0" max="999" step="0.1" placeholder="120.0" title="Beats Per Minute (BPM): Enter track BPM, or use Tap button. Saved with track if consent given." aria-describedby="deck-settings-save-notice-deck1">
+                                </div>
+                            </div>
+                            <div class="time-display" title="Current track time / Total track duration">
+                                <span class="current-time">0:00</span> / <span class="duration">0:00</span>
+                            </div>
+                            <div class="vu-meter-container vertical" title="Deck 1 Volume Level">
+                                <div class="vu-meter-bar" id="vu-meter-deck1"></div>
+                            </div>
+                            <div class="volume-slider-with-icons">
+                                <div><i class="fas fa-volume-up volume-icon" title="Volume High indicator"></i></div>
+                                <div><input type="range" id="volume-deck1" class="volume-slider vertical-slider" min="0" max="100" value="80" title="Deck Volume: Adjust the volume for this deck." orient="vertical"></div>
+                                <div><i class="fas fa-volume-down volume-icon" title="Volume Low indicator"></i></div>
+                            </div>
+                            <div class="seek-slider-container">
+                                <input type="range" class="seek-slider" value="0" max="100" title="Seek Track Position: Click or drag to jump to a specific part of the track.">
+                                <div id="cue-marker-1-deck1" class="cue-point-marker cue-point-marker-1" title="Cue Point 1"></div>
+                                <div id="cue-marker-2-deck1" class="cue-point-marker cue-point-marker-2" title="Cue Point 2"></div>
+                                <div id="cue-marker-3-deck1" class="cue-point-marker cue-point-marker-3" title="Cue Point 3"></div>
+                                <div class="loop-range-marker" title="Active Loop">
+                                    <div class="loop-in-marker-on-seek" title="Loop In"></div>
+                                    <div class="loop-out-marker-on-seek" title="Loop Out"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="control-group cue-group">
+                            <div class="cue-point-controls">
+                                <button class="cue-set-button cue-set-button-1 small-button" title="Set Cue Point 1 at current position" aria-describedby="deck-settings-save-notice-deck1"><i class="fas fa-map-marker-alt"></i> Set Cue 1</button>
+                                <button class="cue-jump-button cue-jump-button-1 small-button" title="Jump to Cue Point 1"><i class="fas fa-step-backward"></i> Cue 1</button>
+                                <input type="text" class="cue-time-input cue-time-input-1" id="cue-time-input-1-deck1" placeholder="-:--" title="Cue Point 1 Time (mm:ss or seconds). Press Enter or lose focus to apply." aria-label="Cue Point 1 Time" aria-describedby="deck-settings-save-notice-deck1">
+                            </div>
+                            <div class="cue-point-controls">
+                                <button class="cue-set-button cue-set-button-2 small-button" title="Set Cue Point 2 at current position" aria-describedby="deck-settings-save-notice-deck1"><i class="fas fa-map-marker-alt"></i> Set Cue 2</button>
+                                <button class="cue-jump-button cue-jump-button-2 small-button" title="Jump to Cue Point 2"><i class="fas fa-step-backward"></i> Cue 2</button>
+                                <input type="text" class="cue-time-input cue-time-input-2" id="cue-time-input-2-deck1" placeholder="-:--" title="Cue Point 2 Time (mm:ss or seconds). Press Enter or lose focus to apply." aria-label="Cue Point 2 Time" aria-describedby="deck-settings-save-notice-deck1">
+                            </div>
+                            <div class="cue-point-controls">
+                                <button class="cue-set-button cue-set-button-3 small-button" title="Set Cue Point 3 at current position" aria-describedby="deck-settings-save-notice-deck1"><i class="fas fa-map-marker-alt"></i> Set Cue 3</button>
+                                <button class="cue-jump-button cue-jump-button-3 small-button" title="Jump to Cue Point 3"><i class="fas fa-step-backward"></i> Cue 3</button>
+                                <input type="text" class="cue-time-input cue-time-input-3" id="cue-time-input-3-deck1" placeholder="-:--" title="Cue Point 3 Time (mm:ss or seconds). Press Enter or lose focus to apply." aria-label="Cue Point 3 Time" aria-describedby="deck-settings-save-notice-deck1">
+                            </div>
+                        </div>
+
+                        <div class="control-group loop-group">
+                            <div class="loop-points-inputs">
+                                <button class="loop-in-button small-button" title="Set Loop Start: Marks the beginning of a repeating section in the track. Saved with track settings if consent given." aria-describedby="deck-settings-save-notice-deck1"><i class="fas fa-sign-in-alt"></i> Loop In</button>
+                                <input type="number" id="loop-in-deck1" class="loop-in-input" step="0.1" min="0" placeholder="-:--" title="Loop Start Point (seconds): Beginning of the loop. If BPM is set, may snap to nearest beat. Saved with track if consent given." aria-describedby="deck-settings-save-notice-deck1">
+                                <button class="loop-out-button small-button" title="Set Loop End: Marks the end of a repeating section. Can also be auto-set using Beat Loop buttons if BPM is known. Saved with track if consent given." aria-describedby="deck-settings-save-notice-deck1"><i class="fas fa-sign-out-alt"></i> Loop Out</button>
+                                <input type="number" id="loop-out-deck1" class="loop-out-input" step="0.1" min="0" placeholder="-:--" title="Loop End Point (seconds): End of the loop. If BPM & Beat Loop selected, will auto-calculate. Saved with track if consent given." aria-describedby="deck-settings-save-notice-deck1">
+                            </div>
+                            <div class="beat-loop-selector">
+                                <button id="deck1-beatloop-4" class="beat-loop-length-button" data-beats="4" data-deck-id="deck1" title="Set 4 Beat Loop: Automatically sets a 4-beat loop from Loop Start or current position if BPM is set."><i class="fas fa-circle-notch"></i> 4B</button>
+                                <button id="deck1-beatloop-8" class="beat-loop-length-button" data-beats="8" data-deck-id="deck1" title="Set 8 Beat Loop: Automatically sets an 8-beat loop."><i class="fas fa-circle-notch"></i> 8B</button>
+                                <button id="deck1-beatloop-16" class="beat-loop-length-button" data-beats="16" data-deck-id="deck1" title="Set 16 Beat Loop: Automatically sets a 16-beat loop."><i class="fas fa-circle-notch"></i> 16B</button>
+                                <button id="deck1-beatloop-32" class="beat-loop-length-button" data-beats="32" data-deck-id="deck1" title="Set 32 Beat Loop: Automatically sets a 32-beat loop."><i class="fas fa-circle-notch"></i> 32B</button>
+                            </div>
+                            <button class="loop-toggle-button full-width-button" title="Toggle Loop On/Off: Activates or deactivates the defined loop. Requires valid Loop In and Loop Out points."><i class="fas fa-redo"></i> Loop Off</button>
+                        </div>
+
+                        <div class="control-group fx-group">
+                            <div class="stutter-buttons-container">
+                                <button class="stutter-fx-toggle-button stutter-step-button" data-deck-id="deck1" data-fx-type="step" title="Toggle Stutter Step Effect: Rhythmic stutter over continuous play." aria-pressed="false">
+                                    <i class="fas fa-shoe-prints"></i> <span>Stutter Step</span>
+                                </button>
+                                <button class="stutter-fx-toggle-button stutter-loop-button" data-deck-id="deck1" data-fx-type="loop" title="Toggle Stutter Loop Effect: Rhythmic stutter that loops a segment." aria-pressed="false">
+                                    <i class="fas fa-sync-alt"></i> <span>Stutter Loop</span>
+                                </button>
+                            </div>
+                            <div class="stutter-fx-rate-control">
+                                <button id="stutter-fx-rate-button-deck1" class="stutter-fx-rate-button" data-deck-id="deck1" title="Cycle Stutter Rate">Rate: 2Hz</button>
+                            </div>
+                        </div>
+                        <span class="deck-settings-save-notice" id="deck-settings-save-notice-deck1" aria-live="polite" style="display: none;">Saving settings requires Preferences consent.</span>
+                    </div>
+                </div>
+
+                <div class="deck" id="deck2">
+                    <div class="deck-header">
+                        <div class="deck-title-area">
+                            <h2>Deck 2</h2>
+                            <div class="track-title-display" title="Currently loaded track title">No track loaded</div>
+                        </div>
+                        <button class="video-toggle-button" title="Show/Hide Video Player" data-deck-id="deck2" aria-pressed="false">
+                            <i class="fas fa-eye"></i><i class="fas fa-eye-slash" style="display:none;"></i>
+                        </button>
+                    </div>
+                    <div class="player-container">
+                        <div id="player2" class="youtube-player"></div>
+                    </div>
+                    <div class="controls">
+                        <div class="control-group track-load-group">
+                            <input type="text" class="youtube-url" placeholder="YouTube URL or ID" title="Enter YouTube video URL or ID to load a track.">
+                            <button class="load-button icon-button" disabled title="Load Track: Paste a YouTube URL or Video ID into the field and click here."><i class="fas fa-plus-circle"></i></button>
+                        </div>
+
+                        <div class="control-group playback-group">
+                            <div class="playback-actions-column">
+                                <button class="play-pause-toggle icon-button" data-deck-id="deck2" title="Play Track" aria-pressed="false">
+                                   <i class="fas fa-play"></i>
+                                </button>
+                               <button class="play-with-deck-button icon-button" data-target-deck="deck1" title="Sync start playback with D1">
+                                   <i class="fas fa-link"></i> Play with D1
+                                </button>
+                               <div class="tap-bpm-row">
+                                   <button class="tap-tempo-button" data-deck-id="deck2" title="Tap Tempo: Click repeatedly to the beat of the music to set BPM. Requires at least 4 taps.">
+                                       <i class="fas fa-hand-point-up"></i> Tap
+                                   </button>
+                                   <label for="bpm-deck2" class="control-label visually-hidden">BPM:</label>
+                                   <input type="number" id="bpm-deck2" class="bpm-input" min="0" max="999" step="0.1" placeholder="120.0" title="Beats Per Minute (BPM): Enter track BPM, or use Tap button. Saved with track if consent given." aria-describedby="deck-settings-save-notice-deck2">
+                               </div>
+                            </div>
+                            <div class="time-display" title="Current track time / Total track duration">
+                                <span class="current-time">0:00</span> / <span class="duration">0:00</span>
+                            </div>
+                            <div class="vu-meter-container vertical" title="Deck 2 Volume Level">
+                                <div class="vu-meter-bar" id="vu-meter-deck2"></div>
+                            </div>
+                            <div class="volume-slider-with-icons">
+                                <div><i class="fas fa-volume-up volume-icon" title="Volume High indicator"></i></div>
+                                <div><input type="range" id="volume-deck2" class="volume-slider vertical-slider" min="0" max="100" value="80" title="Deck Volume: Adjust the volume for this deck." orient="vertical"></div>
+                                <div><i class="fas fa-volume-down volume-icon" title="Volume Low indicator"></i></div>
+                            </div>
+                            <div class="seek-slider-container">
+                                <input type="range" class="seek-slider" value="0" max="100" title="Seek Track Position: Click or drag to jump to a specific part of the track.">
+                                <div id="cue-marker-1-deck2" class="cue-point-marker cue-point-marker-1" title="Cue Point 1"></div>
+                                <div id="cue-marker-2-deck2" class="cue-point-marker cue-point-marker-2" title="Cue Point 2"></div>
+                                <div id="cue-marker-3-deck2" class="cue-point-marker cue-point-marker-3" title="Cue Point 3"></div>
+                                <div class="loop-range-marker" title="Active Loop">
+                                    <div class="loop-in-marker-on-seek" title="Loop In"></div>
+                                    <div class="loop-out-marker-on-seek" title="Loop Out"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="control-group cue-group">
+                            <div class="cue-point-controls">
+                                <button class="cue-set-button cue-set-button-1 small-button" title="Set Cue Point 1 at current position" aria-describedby="deck-settings-save-notice-deck2"><i class="fas fa-map-marker-alt"></i> Set Cue 1</button>
+                                <button class="cue-jump-button cue-jump-button-1 small-button" title="Jump to Cue Point 1"><i class="fas fa-step-backward"></i> Cue 1</button>
+                                <input type="text" class="cue-time-input cue-time-input-1" id="cue-time-input-1-deck2" placeholder="-:--" title="Cue Point 1 Time (mm:ss or seconds). Press Enter or lose focus to apply." aria-label="Cue Point 1 Time" aria-describedby="deck-settings-save-notice-deck2">
+                            </div>
+                             <div class="cue-point-controls">
+                                <button class="cue-set-button cue-set-button-2 small-button" title="Set Cue Point 2 at current position" aria-describedby="deck-settings-save-notice-deck2"><i class="fas fa-map-marker-alt"></i> Set Cue 2</button>
+                                <button class="cue-jump-button cue-jump-button-2 small-button" title="Jump to Cue Point 2"><i class="fas fa-step-backward"></i> Cue 2</button>
+                                <input type="text" class="cue-time-input cue-time-input-2" id="cue-time-input-2-deck2" placeholder="-:--" title="Cue Point 2 Time (mm:ss or seconds). Press Enter or lose focus to apply." aria-label="Cue Point 2 Time" aria-describedby="deck-settings-save-notice-deck2">
+                            </div>
+                             <div class="cue-point-controls">
+                                <button class="cue-set-button cue-set-button-3 small-button" title="Set Cue Point 3 at current position" aria-describedby="deck-settings-save-notice-deck2"><i class="fas fa-map-marker-alt"></i> Set Cue 3</button>
+                                <button class="cue-jump-button cue-jump-button-3 small-button" title="Jump to Cue Point 3"><i class="fas fa-step-backward"></i> Cue 3</button>
+                                <input type="text" class="cue-time-input cue-time-input-3" id="cue-time-input-3-deck2" placeholder="-:--" title="Cue Point 3 Time (mm:ss or seconds). Press Enter or lose focus to apply." aria-label="Cue Point 3 Time" aria-describedby="deck-settings-save-notice-deck2">
+                            </div>
+                        </div>
+
+                        <div class="control-group loop-group">
+                            <div class="loop-points-inputs">
+                                <button class="loop-in-button small-button" title="Set Loop Start: Marks the beginning of a repeating section in the track. Saved with track settings if consent given." aria-describedby="deck-settings-save-notice-deck2"><i class="fas fa-sign-in-alt"></i> Loop In</button>
+                                <input type="number" id="loop-in-deck2" class="loop-in-input" step="0.1" min="0" placeholder="-:--" title="Loop Start Point (seconds): Beginning of the loop. If BPM is set, may snap to nearest beat. Saved with track if consent given." aria-describedby="deck-settings-save-notice-deck2">
+                                <button class="loop-out-button small-button" title="Set Loop End: Marks the end of a repeating section. Can also be auto-set using Beat Loop buttons if BPM is known. Saved with track if consent given." aria-describedby="deck-settings-save-notice-deck2"><i class="fas fa-sign-out-alt"></i> Loop Out</button>
+                                <input type="number" id="loop-out-deck2" class="loop-out-input" step="0.1" min="0" placeholder="-:--" title="Loop End Point (seconds): End of the loop. If BPM & Beat Loop selected, will auto-calculate. Saved with track if consent given." aria-describedby="deck-settings-save-notice-deck2">
+                            </div>
+                            <div class="beat-loop-selector">
+                                <button id="deck2-beatloop-4" class="beat-loop-length-button" data-beats="4" data-deck-id="deck2" title="Set 4 Beat Loop: Automatically sets a 4-beat loop from Loop Start or current position if BPM is set."><i class="fas fa-circle-notch"></i> 4B</button>
+                                <button id="deck2-beatloop-8" class="beat-loop-length-button" data-beats="8" data-deck-id="deck2" title="Set 8 Beat Loop: Automatically sets an 8-beat loop."><i class="fas fa-circle-notch"></i> 8B</button>
+                                <button id="deck2-beatloop-16" class="beat-loop-length-button" data-beats="16" data-deck-id="deck2" title="Set 16 Beat Loop: Automatically sets a 16-beat loop."><i class="fas fa-circle-notch"></i> 16B</button>
+                                <button id="deck2-beatloop-32" class="beat-loop-length-button" data-beats="32" data-deck-id="deck2" title="Set 32 Beat Loop: Automatically sets a 32-beat loop."><i class="fas fa-circle-notch"></i> 32B</button>
+                            </div>
+                            <button class="loop-toggle-button full-width-button" title="Toggle Loop On/Off: Activates or deactivates the defined loop. Requires valid Loop In and Loop Out points."><i class="fas fa-redo"></i> Loop Off</button>
+                        </div>
+
+                        <div class="control-group fx-group">
+                            <div class="stutter-buttons-container">
+                                <button class="stutter-fx-toggle-button stutter-step-button" data-deck-id="deck2" data-fx-type="step" title="Toggle Stutter Step Effect: Rhythmic stutter over continuous play." aria-pressed="false">
+                                    <i class="fas fa-shoe-prints"></i> <span>Stutter Step</span>
+                                </button>
+                                <button class="stutter-fx-toggle-button stutter-loop-button" data-deck-id="deck2" data-fx-type="loop" title="Toggle Stutter Loop Effect: Rhythmic stutter that loops a segment." aria-pressed="false">
+                                    <i class="fas fa-sync-alt"></i> <span>Stutter Loop</span>
+                                </button>
+                            </div>
+                            <div class="stutter-fx-rate-control">
+                               <button id="stutter-fx-rate-button-deck2" class="stutter-fx-rate-button" data-deck-id="deck2" title="Cycle Stutter Rate">Rate: 2Hz</button>
+                            </div>
+                        </div>
+                        <span class="deck-settings-save-notice" id="deck-settings-save-notice-deck2" aria-live="polite" style="display: none;">Saving settings requires Preferences consent.</span>
+                    </div>
+                </div>
+
+                <div class="deck hidden-by-default" id="deck3">
+                    <div class="deck-header">
+                        <div class="deck-title-area">
+                            <h2>Deck 3</h2>
+                            <div class="track-title-display" title="Currently loaded track title">No track loaded</div>
+                        </div>
+                        <button class="video-toggle-button" title="Show/Hide Video Player" data-deck-id="deck3" aria-pressed="false">
+                            <i class="fas fa-eye"></i><i class="fas fa-eye-slash" style="display:none;"></i>
+                        </button>
+                    </div>
+                    <div class="player-container">
+                        <div id="player3" class="youtube-player"></div>
+                    </div>
+                    <div class="controls">
+                        <div class="control-group track-load-group">
+                            <input type="text" class="youtube-url" placeholder="YouTube URL or ID" title="Enter YouTube video URL or ID to load a track.">
+                            <button class="load-button icon-button" disabled title="Load Track: Paste a YouTube URL or Video ID into the field and click here."><i class="fas fa-plus-circle"></i></button>
+                        </div>
+                        <div class="control-group playback-group">
+                            <div class="playback-actions-column">
+                                <button class="play-pause-toggle icon-button" data-deck-id="deck3" title="Play Track" aria-pressed="false">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <button class="play-with-deck-button icon-button" data-target-deck="deck4" title="Sync start playback with D4">
+                                    <i class="fas fa-link"></i> Play with D4
+                                </button>
+                                <div class="tap-bpm-row">
+                                    <button class="tap-tempo-button" data-deck-id="deck3" title="Tap Tempo: Click repeatedly to the beat of the music to set BPM. Requires at least 4 taps.">
+                                        <i class="fas fa-hand-point-up"></i> Tap
+                                    </button>
+                                    <label for="bpm-deck3" class="control-label visually-hidden">BPM:</label>
+                                    <input type="number" id="bpm-deck3" class="bpm-input" min="0" max="999" step="0.1" placeholder="120.0" title="Beats Per Minute (BPM): Enter track BPM, or use Tap button. Saved with track if consent given." aria-describedby="deck-settings-save-notice-deck3">
+                                </div>
+                            </div>
+                            <div class="time-display" title="Current track time / Total track duration">
+                                <span class="current-time">0:00</span> / <span class="duration">0:00</span>
+                            </div>
+                            <div class="vu-meter-container vertical" title="Deck 3 Volume Level">
+                                <div class="vu-meter-bar" id="vu-meter-deck3"></div>
+                            </div>
+                            <div class="volume-slider-with-icons">
+                                <div><i class="fas fa-volume-up volume-icon" title="Volume High indicator"></i></div>
+                                <div><input type="range" id="volume-deck3" class="volume-slider vertical-slider" min="0" max="100" value="80" title="Deck Volume: Adjust the volume for this deck." orient="vertical"></div>
+                                <div><i class="fas fa-volume-down volume-icon" title="Volume Low indicator"></i></div>
+                            </div>
+                            <div class="seek-slider-container">
+                                <input type="range" class="seek-slider" value="0" max="100" title="Seek Track Position: Click or drag to jump to a specific part of the track.">
+                                <div id="cue-marker-1-deck3" class="cue-point-marker cue-point-marker-1" title="Cue Point 1"></div>
+                                <div id="cue-marker-2-deck3" class="cue-point-marker cue-point-marker-2" title="Cue Point 2"></div>
+                                <div id="cue-marker-3-deck3" class="cue-point-marker cue-point-marker-3" title="Cue Point 3"></div>
+                                <div class="loop-range-marker" title="Active Loop">
+                                    <div class="loop-in-marker-on-seek" title="Loop In"></div>
+                                    <div class="loop-out-marker-on-seek" title="Loop Out"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="control-group cue-group">
+                             <div class="cue-point-controls">
+                                <button class="cue-set-button cue-set-button-1 small-button" title="Set Cue Point 1 at current position" aria-describedby="deck-settings-save-notice-deck3"><i class="fas fa-map-marker-alt"></i> Set Cue 1</button>
+                                <button class="cue-jump-button cue-jump-button-1 small-button" title="Jump to Cue Point 1"><i class="fas fa-step-backward"></i> Cue 1</button>
+                                <input type="text" class="cue-time-input cue-time-input-1" id="cue-time-input-1-deck3" placeholder="-:--" title="Cue Point 1 Time (mm:ss or seconds). Press Enter or lose focus to apply." aria-label="Cue Point 1 Time" aria-describedby="deck-settings-save-notice-deck3">
+                            </div>
+                            <div class="cue-point-controls">
+                                <button class="cue-set-button cue-set-button-2 small-button" title="Set Cue Point 2 at current position" aria-describedby="deck-settings-save-notice-deck3"><i class="fas fa-map-marker-alt"></i> Set Cue 2</button>
+                                <button class="cue-jump-button cue-jump-button-2 small-button" title="Jump to Cue Point 2"><i class="fas fa-step-backward"></i> Cue 2</button>
+                                <input type="text" class="cue-time-input cue-time-input-2" id="cue-time-input-2-deck3" placeholder="-:--" title="Cue Point 2 Time (mm:ss or seconds). Press Enter or lose focus to apply." aria-label="Cue Point 2 Time" aria-describedby="deck-settings-save-notice-deck3">
+                            </div>
+                            <div class="cue-point-controls">
+                                <button class="cue-set-button cue-set-button-3 small-button" title="Set Cue Point 3 at current position" aria-describedby="deck-settings-save-notice-deck3"><i class="fas fa-map-marker-alt"></i> Set Cue 3</button>
+                                <button class="cue-jump-button cue-jump-button-3 small-button" title="Jump to Cue Point 3"><i class="fas fa-step-backward"></i> Cue 3</button>
+                                <input type="text" class="cue-time-input cue-time-input-3" id="cue-time-input-3-deck3" placeholder="-:--" title="Cue Point 3 Time (mm:ss or seconds). Press Enter or lose focus to apply." aria-label="Cue Point 3 Time" aria-describedby="deck-settings-save-notice-deck3">
+                            </div>
+                        </div>
+                        <div class="control-group loop-group">
+                            <div class="loop-points-inputs">
+                                <button class="loop-in-button small-button" title="Set Loop Start: Marks the beginning of a repeating section in the track. Saved with track settings if consent given." aria-describedby="deck-settings-save-notice-deck3"><i class="fas fa-sign-in-alt"></i> Loop In</button>
+                                <input type="number" id="loop-in-deck3" class="loop-in-input" step="0.1" min="0" placeholder="-:--" title="Loop Start Point (seconds): Beginning of the loop. If BPM is set, may snap to nearest beat. Saved with track if consent given." aria-describedby="deck-settings-save-notice-deck3">
+                                <button class="loop-out-button small-button" title="Set Loop End: Marks the end of a repeating section. Can also be auto-set using Beat Loop buttons if BPM is known. Saved with track if consent given." aria-describedby="deck-settings-save-notice-deck3"><i class="fas fa-sign-out-alt"></i> Loop Out</button>
+                                <input type="number" id="loop-out-deck3" class="loop-out-input" step="0.1" min="0" placeholder="-:--" title="Loop End Point (seconds): End of the loop. If BPM & Beat Loop selected, will auto-calculate. Saved with track if consent given." aria-describedby="deck-settings-save-notice-deck3">
+                            </div>
+                            <div class="beat-loop-selector">
+                                <button id="deck3-beatloop-4" class="beat-loop-length-button" data-beats="4" data-deck-id="deck3" title="Set 4 Beat Loop: Automatically sets a 4-beat loop from Loop Start or current position if BPM is set."><i class="fas fa-circle-notch"></i> 4B</button>
+                                <button id="deck3-beatloop-8" class="beat-loop-length-button" data-beats="8" data-deck-id="deck3" title="Set 8 Beat Loop: Automatically sets an 8-beat loop."><i class="fas fa-circle-notch"></i> 8B</button>
+                                <button id="deck3-beatloop-16" class="beat-loop-length-button" data-beats="16" data-deck-id="deck3" title="Set 16 Beat Loop: Automatically sets a 16-beat loop."><i class="fas fa-circle-notch"></i> 16B</button>
+                                <button id="deck3-beatloop-32" class="beat-loop-length-button" data-beats="32" data-deck-id="deck3" title="Set 32 Beat Loop: Automatically sets a 32-beat loop."><i class="fas fa-circle-notch"></i> 32B</button>
+                            </div>
+                            <button class="loop-toggle-button full-width-button" title="Toggle Loop On/Off: Activates or deactivates the defined loop. Requires valid Loop In and Loop Out points."><i class="fas fa-redo"></i> Loop Off</button>
+                        </div>
+                         <div class="control-group fx-group">
+                            <div class="stutter-buttons-container">
+                                <button class="stutter-fx-toggle-button stutter-step-button" data-deck-id="deck3" data-fx-type="step" title="Toggle Stutter Step Effect: Rhythmic stutter over continuous play." aria-pressed="false">
+                                    <i class="fas fa-shoe-prints"></i> <span>Stutter Step</span>
+                                </button>
+                                <button class="stutter-fx-toggle-button stutter-loop-button" data-deck-id="deck3" data-fx-type="loop" title="Toggle Stutter Loop Effect: Rhythmic stutter that loops a segment." aria-pressed="false">
+                                    <i class="fas fa-sync-alt"></i> <span>Stutter Loop</span>
+                                </button>
+                            </div>
+                            <div class="stutter-fx-rate-control">
+                                <button id="stutter-fx-rate-button-deck3" class="stutter-fx-rate-button" data-deck-id="deck3" title="Cycle Stutter Rate">Rate: 2Hz</button>
+                            </div>
+                        </div>
+                        <span class="deck-settings-save-notice" id="deck-settings-save-notice-deck3" aria-live="polite" style="display: none;">Saving settings requires Preferences consent.</span>
+                    </div>
+                </div>
+
+                <div class="deck hidden-by-default" id="deck4">
+                    <div class="deck-header">
+                         <div class="deck-title-area">
+                            <h2>Deck 4</h2>
+                            <div class="track-title-display" title="Currently loaded track title">No track loaded</div>
+                        </div>
+                        <button class="video-toggle-button" title="Show/Hide Video Player" data-deck-id="deck4" aria-pressed="false">
+                            <i class="fas fa-eye"></i><i class="fas fa-eye-slash" style="display:none;"></i>
+                        </button>
+                    </div>
+                    <div class="player-container">
+                        <div id="player4" class="youtube-player"></div>
+                    </div>
+                    <div class="controls">
+                        <div class="control-group track-load-group">
+                            <input type="text" class="youtube-url" placeholder="YouTube URL or ID" title="Enter YouTube video URL or ID to load a track.">
+                            <button class="load-button icon-button" disabled title="Load Track: Paste a YouTube URL or Video ID into the field and click here."><i class="fas fa-plus-circle"></i></button>
+                        </div>
+                        <div class="control-group playback-group">
+                            <div class="playback-actions-column">
+                                <button class="play-pause-toggle icon-button" data-deck-id="deck4" title="Play Track" aria-pressed="false">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <button class="play-with-deck-button icon-button" data-target-deck="deck3" title="Sync start playback with D3">
+                                    <i class="fas fa-link"></i> Play with D3
+                                </button>
+                                <div class="tap-bpm-row">
+                                    <button class="tap-tempo-button" data-deck-id="deck4" title="Tap Tempo: Click repeatedly to the beat of the music to set BPM. Requires at least 4 taps.">
+                                        <i class="fas fa-hand-point-up"></i> Tap
+                                    </button>
+                                    <label for="bpm-deck4" class="control-label visually-hidden">BPM:</label>
+                                    <input type="number" id="bpm-deck4" class="bpm-input" min="0" max="999" step="0.1" placeholder="120.0" title="Beats Per Minute (BPM): Enter track BPM, or use Tap button. Saved with track if consent given." aria-describedby="deck-settings-save-notice-deck4">
+                                </div>
+                            </div>
+                            <div class="time-display" title="Current track time / Total track duration">
+                                <span class="current-time">0:00</span> / <span class="duration">0:00</span>
+                            </div>
+                            <div class="vu-meter-container vertical" title="Deck 4 Volume Level">
+                                <div class="vu-meter-bar" id="vu-meter-deck4"></div>
+                            </div>
+                            <div class="volume-slider-with-icons">
+                                <div><i class="fas fa-volume-up volume-icon" title="Volume High indicator"></i></div>
+                                <div><input type="range" id="volume-deck4" class="volume-slider vertical-slider" min="0" max="100" value="80" title="Deck Volume: Adjust the volume for this deck." orient="vertical"></div>
+                                <div><i class="fas fa-volume-down volume-icon" title="Volume Low indicator"></i></div>
+                            </div>
+                            <div class="seek-slider-container">
+                                <input type="range" class="seek-slider" value="0" max="100" title="Seek Track Position: Click or drag to jump to a specific part of the track.">
+                                <div id="cue-marker-1-deck4" class="cue-point-marker cue-point-marker-1" title="Cue Point 1"></div>
+                                <div id="cue-marker-2-deck4" class="cue-point-marker cue-point-marker-2" title="Cue Point 2"></div>
+                                <div id="cue-marker-3-deck4" class="cue-point-marker cue-point-marker-3" title="Cue Point 3"></div>
+                                <div class="loop-range-marker" title="Active Loop">
+                                    <div class="loop-in-marker-on-seek" title="Loop In"></div>
+                                    <div class="loop-out-marker-on-seek" title="Loop Out"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="control-group cue-group">
+                            <div class="cue-point-controls">
+                                <button class="cue-set-button cue-set-button-1 small-button" title="Set Cue Point 1 at current position" aria-describedby="deck-settings-save-notice-deck4"><i class="fas fa-map-marker-alt"></i> Set Cue 1</button>
+                                <button class="cue-jump-button cue-jump-button-1 small-button" title="Jump to Cue Point 1"><i class="fas fa-step-backward"></i> Cue 1</button>
+                                <input type="text" class="cue-time-input cue-time-input-1" id="cue-time-input-1-deck4" placeholder="-:--" title="Cue Point 1 Time (mm:ss or seconds). Press Enter or lose focus to apply." aria-label="Cue Point 1 Time" aria-describedby="deck-settings-save-notice-deck4">
+                            </div>
+                            <div class="cue-point-controls">
+                                <button class="cue-set-button cue-set-button-2 small-button" title="Set Cue Point 2 at current position" aria-describedby="deck-settings-save-notice-deck4"><i class="fas fa-map-marker-alt"></i> Set Cue 2</button>
+                                <button class="cue-jump-button cue-jump-button-2 small-button" title="Jump to Cue Point 2"><i class="fas fa-step-backward"></i> Cue 2</button>
+                                <input type="text" class="cue-time-input cue-time-input-2" id="cue-time-input-2-deck4" placeholder="-:--" title="Cue Point 2 Time (mm:ss or seconds). Press Enter or lose focus to apply." aria-label="Cue Point 2 Time" aria-describedby="deck-settings-save-notice-deck4">
+                            </div>
+                            <div class="cue-point-controls">
+                                <button class="cue-set-button cue-set-button-3 small-button" title="Set Cue Point 3 at current position" aria-describedby="deck-settings-save-notice-deck4"><i class="fas fa-map-marker-alt"></i> Set Cue 3</button>
+                                <button class="cue-jump-button cue-jump-button-3 small-button" title="Jump to Cue Point 3"><i class="fas fa-step-backward"></i> Cue 3</button>
+                                <input type="text" class="cue-time-input cue-time-input-3" id="cue-time-input-3-deck4" placeholder="-:--" title="Cue Point 3 Time (mm:ss or seconds). Press Enter or lose focus to apply." aria-label="Cue Point 3 Time" aria-describedby="deck-settings-save-notice-deck4">
+                            </div>
+                        </div>
+                        <div class="control-group loop-group">
+                            <div class="loop-points-inputs">
+                                <button class="loop-in-button small-button" title="Set Loop Start: Marks the beginning of a repeating section in the track. Saved with track settings if consent given." aria-describedby="deck-settings-save-notice-deck4"><i class="fas fa-sign-in-alt"></i> Loop In</button>
+                                <input type="number" id="loop-in-deck4" class="loop-in-input" step="0.1" min="0" placeholder="-:--" title="Loop Start Point (seconds): Beginning of the loop. If BPM is set, may snap to nearest beat. Saved with track if consent given." aria-describedby="deck-settings-save-notice-deck4">
+                                <button class="loop-out-button small-button" title="Set Loop End: Marks the end of a repeating section. Can also be auto-set using Beat Loop buttons if BPM is known. Saved with track if consent given." aria-describedby="deck-settings-save-notice-deck4"><i class="fas fa-sign-out-alt"></i> Loop Out</button>
+                                <input type="number" id="loop-out-deck4" class="loop-out-input" step="0.1" min="0" placeholder="-:--" title="Loop End Point (seconds): End of the loop. If BPM & Beat Loop selected, will auto-calculate. Saved with track if consent given." aria-describedby="deck-settings-save-notice-deck4">
+                            </div>
+                            <div class="beat-loop-selector">
+                                <button id="deck4-beatloop-4" class="beat-loop-length-button" data-beats="4" data-deck-id="deck4" title="Set 4 Beat Loop: Automatically sets a 4-beat loop from Loop Start or current position if BPM is set."><i class="fas fa-circle-notch"></i> 4B</button>
+                                <button id="deck4-beatloop-8" class="beat-loop-length-button" data-beats="8" data-deck-id="deck4" title="Set 8 Beat Loop: Automatically sets an 8-beat loop."><i class="fas fa-circle-notch"></i> 8B</button>
+                                <button id="deck4-beatloop-16" class="beat-loop-length-button" data-beats="16" data-deck-id="deck4" title="Set 16 Beat Loop: Automatically sets a 16-beat loop."><i class="fas fa-circle-notch"></i> 16B</button>
+                                <button id="deck4-beatloop-32" class="beat-loop-length-button" data-beats="32" data-deck-id="deck4" title="Set 32 Beat Loop: Automatically sets a 32-beat loop."><i class="fas fa-circle-notch"></i> 32B</button>
+                            </div>
+                            <button class="loop-toggle-button full-width-button" title="Toggle Loop On/Off: Activates or deactivates the defined loop. Requires valid Loop In and Loop Out points."><i class="fas fa-redo"></i> Loop Off</button>
+                        </div>
+                        <div class="control-group fx-group">
+                             <div class="stutter-buttons-container">
+                                <button class="stutter-fx-toggle-button stutter-step-button" data-deck-id="deck4" data-fx-type="step" title="Toggle Stutter Step Effect: Rhythmic stutter over continuous play." aria-pressed="false">
+                                    <i class="fas fa-shoe-prints"></i> <span>Stutter Step</span>
+                                </button>
+                                <button class="stutter-fx-toggle-button stutter-loop-button" data-deck-id="deck4" data-fx-type="loop" title="Toggle Stutter Loop Effect: Rhythmic stutter that loops a segment." aria-pressed="false">
+                                    <i class="fas fa-sync-alt"></i> <span>Stutter Loop</span>
+                                </button>
+                            </div>
+                            <div class="stutter-fx-rate-control">
+                                <button id="stutter-fx-rate-button-deck4" class="stutter-fx-rate-button" data-deck-id="deck4" title="Cycle Stutter Rate">Rate: 2Hz</button>
+                            </div>
+                        </div>
+                        <span class="deck-settings-save-notice" id="deck-settings-save-notice-deck4" aria-live="polite" style="display: none;">Saving settings requires Preferences consent.</span>
+                    </div>
+                </div>
+            </div> <div class="mixer-library-container">
+                <div class="mixer-container">
+                    <h2><i class="fas fa-sliders-h"></i> Mixer</h2>
+                    <div class="master-volume-section">
+                        <div class="vu-meter-container horizontal" title="Master Output Level">
+                           <div class="vu-meter-bar" id="vu-meter-master"></div>
+                       </div>
+                        <label for="master-volume" class="control-label master-label"><i class="fas fa-headphones"></i> Master Volume</label>
+                        <input type="range" id="master-volume" min="0" max="100" value="80" title="Master Output Volume: Controls the overall volume of the DJ mix.">
+                   </div>
+                    <div class="crossfaders-grid">
+                        <div class="crossfader-section" id="cf-section-12">
+                            <label class="fader-label">Deck 1 <i class="fas fa-arrows-alt-h"></i> Deck 2</label>
+                            <div class="fader-area">
+                                <input type="range" id="crossfader12" class="crossfader" min="0" max="100" value="50" title="Crossfade between Deck 1 and Deck 2: Slide to blend audio from Deck 1 (left) to Deck 2 (right). Center position (50) plays both decks equally if their individual volumes are up.">
+                                <div class="crossfade-addons">
+                                    <div class="crossfade-beat-selector">
+                                        <button class="crossfade-beats-button" data-fader-id="crossfader12" data-beats="2" title="2 Beat Auto-Crossfade: Set automatic crossfade duration to 2 beats. Requires BPM on fading-out deck."><i class="fas fa-arrows-alt-h"></i> 2B</button>
+                                        <button class="crossfade-beats-button active" data-fader-id="crossfader12" data-beats="4" title="4 Beat Auto-Crossfade: Set automatic crossfade duration to 4 beats. Requires BPM on fading-out deck."><i class="fas fa-arrows-alt-h"></i> 4B</button>
+                                        <button class="crossfade-beats-button" data-fader-id="crossfader12" data-beats="8" title="8 Beat Auto-Crossfade: Set automatic crossfade duration to 8 beats. Requires BPM on fading-out deck."><i class="fas fa-arrows-alt-h"></i> 8B</button>
+                                    </div>
+                                    <button class="auto-crossfade-toggle small-button" data-fader-id="crossfader12" title="Toggle Automatic Crossfade at Track End: When active, automatically fades to the other deck as the current one nears its end. Requires the other deck to be loaded and ready." aria-pressed="false"><i class="fas fa-magic"></i> Auto</button>
+                                    <button id="trigger-auto-crossfade-12" class="trigger-immediate-crossfade-button small-button" data-fader-id="crossfader12" title="Immediately Crossfade Now: Quickly fades from the currently dominant deck to the other, based on selected beat length. Starts playback on incoming deck if paused."><i class="fas fa-random"></i> X-Fade</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="crossfader-section hidden-by-default" id="cf-section-23">
+                            <label class="fader-label">Deck 2 <i class="fas fa-arrows-alt-h"></i> Deck 3</label>
+                            <div class="fader-area">
+                                <input type="range" id="crossfader23" class="crossfader" min="0" max="100" value="50" title="Crossfade between Deck 2 and Deck 3: Slide to blend audio.">
+                                <div class="crossfade-addons">
+                                    <div class="crossfade-beat-selector">
+                                        <button class="crossfade-beats-button" data-fader-id="crossfader23" data-beats="2" title="2 Beat Auto-Crossfade"><i class="fas fa-arrows-alt-h"></i> 2B</button>
+                                        <button class="crossfade-beats-button active" data-fader-id="crossfader23" data-beats="4" title="4 Beat Auto-Crossfade"><i class="fas fa-arrows-alt-h"></i> 4B</button>
+                                        <button class="crossfade-beats-button" data-fader-id="crossfader23" data-beats="8" title="8 Beat Auto-Crossfade"><i class="fas fa-arrows-alt-h"></i> 8B</button>
+                                    </div>
+                                    <button class="auto-crossfade-toggle small-button" data-fader-id="crossfader23" title="Toggle Automatic Crossfade at Track End" aria-pressed="false"><i class="fas fa-magic"></i> Auto</button>
+                                    <button id="trigger-auto-crossfade-23" class="trigger-immediate-crossfade-button small-button" data-fader-id="crossfader23" title="Immediately Crossfade Now"><i class="fas fa-random"></i> X-Fade</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="crossfader-section hidden-by-default" id="cf-section-34">
+                            <label class="fader-label">Deck 3 <i class="fas fa-arrows-alt-h"></i> Deck 4</label>
+                            <div class="fader-area">
+                                <input type="range" id="crossfader34" class="crossfader" min="0" max="100" value="50" title="Crossfade between Deck 3 and Deck 4: Slide to blend audio.">
+                                 <div class="crossfade-addons">
+                                    <div class="crossfade-beat-selector">
+                                        <button class="crossfade-beats-button" data-fader-id="crossfader34" data-beats="2" title="2 Beat Auto-Crossfade"><i class="fas fa-arrows-alt-h"></i> 2B</button>
+                                        <button class="crossfade-beats-button active" data-fader-id="crossfader34" data-beats="4" title="4 Beat Auto-Crossfade"><i class="fas fa-arrows-alt-h"></i> 4B</button>
+                                        <button class="crossfade-beats-button" data-fader-id="crossfader34" data-beats="8" title="8 Beat Auto-Crossfade"><i class="fas fa-arrows-alt-h"></i> 8B</button>
+                                    </div>
+                                    <button class="auto-crossfade-toggle small-button" data-fader-id="crossfader34" title="Toggle Automatic Crossfade at Track End" aria-pressed="false"><i class="fas fa-magic"></i> Auto</button>
+                                    <button id="trigger-auto-crossfade-34" class="trigger-immediate-crossfade-button small-button" data-fader-id="crossfader34" title="Immediately Crossfade Now"><i class="fas fa-random"></i> X-Fade</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="crossfader-section hidden-by-default" id="cf-section-41">
+                            <label class="fader-label">Deck 4 <i class="fas fa-arrows-alt-h"></i> Deck 1</label>
+                            <div class="fader-area">
+                                <input type="range" id="crossfader41" class="crossfader" min="0" max="100" value="50" title="Crossfade between Deck 4 and Deck 1: Slide to blend audio.">
+                                 <div class="crossfade-addons">
+                                    <div class="crossfade-beat-selector">
+                                        <button class="crossfade-beats-button" data-fader-id="crossfader41" data-beats="2" title="2 Beat Auto-Crossfade"><i class="fas fa-arrows-alt-h"></i> 2B</button>
+                                        <button class="crossfade-beats-button active" data-fader-id="crossfader41" data-beats="4" title="4 Beat Auto-Crossfade"><i class="fas fa-arrows-alt-h"></i> 4B</button>
+                                        <button class="crossfade-beats-button" data-fader-id="crossfader41" data-beats="8" title="8 Beat Auto-Crossfade"><i class="fas fa-arrows-alt-h"></i> 8B</button>
+                                    </div>
+                                    <button class="auto-crossfade-toggle small-button" data-fader-id="crossfader41" title="Toggle Automatic Crossfade at Track End" aria-pressed="false"><i class="fas fa-magic"></i> Auto</button>
+                                    <button id="trigger-auto-crossfade-41" class="trigger-immediate-crossfade-button small-button" data-fader-id="crossfader41" title="Immediately Crossfade Now"><i class="fas fa-random"></i> X-Fade</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <div class="library-container">
+                    <h2><i class="fas fa-list-music"></i> Playlist Library</h2>
+                    <div class="playlist-controls">
+                        <input type="text" id="playlist-name" placeholder="Playlist Name" title="Enter name for new playlist or to overwrite an existing one. Playlists save the Video IDs of tracks currently loaded on active decks." aria-describedby="playlist-save-notice">
+                        <button id="save-playlist-button" title="Save current tracks on all active decks as a new playlist. Requires Preferences consent. Will overwrite if playlist name already exists." aria-describedby="playlist-save-notice" aria-disabled="true"><i class="fas fa-save"></i> Save Playlist</button>
+                    </div>
+                    <span id="playlist-save-notice" aria-live="polite" style="display: none;">Saving playlists requires Preferences consent.</span>
+                    <div id="saved-playlists">
+                        <h3>Saved Playlists:</h3>
+                        <ul id="playlist-list">
+                            <li>No playlists saved yet.</li>
+                        </ul>
+                    </div>
+                </div> </div> </div> </div> <div id="adsense-bottom-banner" class="adsense-banner-container" aria-label="Advertisement Bottom">
+        <p class="adsense-placeholder-text">Bottom Ad Banner Placeholder</p>
+    </div>
+
+    <footer>
+        <button id="manage-consent-button" class="link-button" title="Open settings to manage your cookie and local storage preferences for saving track settings and playlists.">Manage Cookie Preferences</button>
+        <a href="privacy-policy.html" target="_self" class="privacy-link" title="View the site's privacy policy.">Privacy Policy</a>
+    </footer>
+
+    <div id="notification-container"></div>
+
+    <div id="consent-banner" class="consent-banner hidden">
+        <p>
+            This site uses cookies and `localStorage` to function and save your preferences (like cue points and playlists).
+            <a href="privacy-policy.html" target="_self" title="Learn more about how your data is used.">Learn more in our Privacy Policy</a>.
+        </p>
+        <div class="consent-actions">
+            <button id="consent-accept-all" title="Accept all cookies and local storage usage. This enables saving all your settings like cue points, BPM, and playlists.">Accept All</button>
+            <button id="consent-reject-all" title="Reject non-essential cookies and local storage. Settings like cue points, BPM, and playlists will not be saved.">Reject All</button>
+            <button id="consent-customize" title="Customize your preferences for cookies and local storage.">Customize</button>
+        </div>
+    </div>
+
+    <div id="consent-modal" class="consent-modal hidden">
+        <div class="consent-modal-content">
+            <div class="consent-modal-header">
+                <h2>Manage Preferences</h2>
+                <button id="consent-modal-close" class="icon-button" title="Close preferences window"><i class="fas fa-times"></i></button>
+            </div>
+            <p>Select which types of storage you allow. Essential storage cannot be disabled.</p>
+            <form id="consent-form">
+                <div class="consent-category">
+                    <input type="checkbox" id="consent-essential" name="essential" checked disabled>
+                    <label for="consent-essential"><strong>Strictly Necessary</strong> (Always Active)</label>
+                    <p>Required for basic website functionality (e.g., remembering your consent choice, YouTube player operation).</p>
+                </div>
+                <div class="consent-category">
+                    <input type="checkbox" id="consent-preferences" name="preferences">
+                    <label for="consent-preferences"><strong>Preferences & Functionality</strong></label>
+                    <p>Allows saving settings like cue points, loop points, BPM, and playlists between sessions. Disabling this means these settings won't be remembered.</p>
+                </div>
+                <div class="consent-modal-actions">
+                    <button type="button" id="consent-save" title="Save your current preference selection.">Save Preferences</button>
+                    <button type="button" id="consent-modal-reject-all" title="Reject all non-essential storage. Preferences will not be saved.">Reject Non-Essential</button>
+                    <button type="button" id="consent-modal-accept-all" title="Accept all non-essential storage. Preferences will be saved.">Accept All Non-Essential</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script> 
+    <script src="https://www.youtube.com/iframe_api"></script> 
+</body>
+</html>

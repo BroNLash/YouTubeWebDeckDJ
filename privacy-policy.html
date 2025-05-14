@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - YouTube Web DJ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Additional styles specific to the privacy policy page */
+        body {
+            /* STAGE 4: Corrected CSS calc() syntax - Confirmed as correct */
+            padding-bottom: calc(var(--spacing-unit) * 4); /* Ensure footer doesn't overlap content */
+        }
+        .privacy-container {
+            max-width: 800px;
+            margin: calc(var(--spacing-unit) * 2) auto;
+            padding: calc(var(--spacing-unit) * 2);
+            background-color: var(--surface-color);
+            border-radius: var(--control-radius);
+            box-shadow: var(--shadow-medium);
+            border: 1px solid var(--surface-border-color);
+        }
+        .privacy-container h1, .privacy-container h2 {
+            color: var(--primary-accent-color);
+            border-bottom: 1px solid var(--surface-border-color);
+            padding-bottom: var(--spacing-unit);
+            margin-bottom: var(--spacing-unit);
+        }
+        .privacy-container h1 {
+            text-align: center;
+            font-size: 2em;
+        }
+        .privacy-container h1 i { /* Ensure icon in H1 also gets the primary accent color */
+            color: var(--primary-accent-color);
+            margin-right: var(--spacing-unit); /* Added some spacing for the icon */
+        }
+        .privacy-container h2 {
+            font-size: 1.5em;
+            margin-top: calc(var(--spacing-unit) * 2);
+        }
+        .privacy-container p, .privacy-container ul {
+            margin-bottom: var(--spacing-unit);
+            line-height: 1.7;
+            color: var(--text-color); 
+        }
+        .privacy-container ul {
+            list-style: disc;
+            padding-left: calc(var(--spacing-unit) * 2.5);
+        }
+        .privacy-container a { 
+            color: var(--primary-accent-color);
+            text-decoration: underline;
+        }
+        .privacy-container a:hover {
+            color: var(--secondary-accent-color);
+        }
+        .back-link-container {
+            text-align: center;
+            margin-top: calc(var(--spacing-unit) * 3);
+        }
+        /* The .subtle-button class for the "Back to DJ App" link is defined in style.css */
+    </style>
+</head>
+<body>
+    <div class="privacy-container">
+        <h1><i class="fas fa-shield-alt"></i> Privacy Policy for YouTube Web DJ</h1>
+        <p><em>Last Updated: May 13, 2025</em></p> <h2>1. Introduction</h2>
+        <p>Welcome to YouTube Web DJ ("the Application"). This Privacy Policy explains how we handle information when you use our web-based DJ application. By using the Application, you agree to the collection and use of information in accordance with this policy.</p>
+        <p>The Application is designed to be used directly in your web browser and leverages the YouTube Iframe Player API to play and control YouTube videos.</p>
+
+        <h2>2. Information We Collect</h2>
+        <p>The Application primarily functions using data processed and stored locally within your web browser. We do not have a backend server that collects or stores your personal data.</p>
+        <ul>
+            <li><strong>YouTube Video URLs/IDs:</strong> When you load a track, you provide a YouTube video URL or ID. This information is processed by your browser to interact with the YouTube Iframe Player API and is not stored by us on any server.</li>
+            <li><strong>User Preferences and Settings (via `localStorage`):</strong> If you provide consent, the Application uses your browser's `localStorage` to save certain preferences and settings to enhance your experience. This may include:
+                <ul>
+                    <li>Cue points for tracks</li>
+                    <li>Loop points (in/out) for tracks</li>
+                    <li>Beats Per Minute (BPM) for tracks</li>
+                    <li>Volume levels for decks</li>
+                    <li>Saved playlists (collections of YouTube Video IDs)</li>
+                    <li>Your consent status for storing these preferences.</li>
+                </ul>
+                This data is stored directly in your browser and is not transmitted to any external server controlled by us.
+            </li>
+            <li><strong>Consent Information:</strong> We store your consent choices regarding the use of `localStorage` for preferences within your browser's `localStorage`.</li>
+        </ul>
+
+        <h2>3. How We Use Information</h2>
+        <p>The information processed by the Application is used solely for the following purposes:</p>
+        <ul>
+            <li>To enable the core functionality of the DJ application, such as loading and playing YouTube videos.</li>
+            <li>To save and recall your track settings (cue points, loops, BPM, volume) and playlists across sessions, if you have given consent for "Preferences & Functionality" storage.</li>
+            <li>To remember your consent preferences.</li>
+        </ul>
+
+        <h2>4. Data Storage and Security</h2>
+        <p>All data related to your settings, playlists, and consent is stored locally in your web browser's `localStorage`. </p>
+        <ul>
+            <li><strong>Local Storage:</strong> `localStorage` is a type of web storage that allows websites/applications to store data in a user's browser with no expiration date. This data remains on your computer/device until it is explicitly cleared by you (e.g., by clearing your browser's cache and site data, or by using the "Reject All" / "Manage Cookie Preferences" options within the Application that affect `localStorage`).</li>
+            <li><strong>Security:</strong> While `localStorage` is sandboxed to the specific website domain, meaning other websites cannot access this Application's `localStorage`, it is important to understand that this data resides on your device. We do not implement additional encryption for data within `localStorage` beyond what your browser provides.</li>
+        </ul>
+        <p>We do not transmit this locally stored data to any external servers.</p>
+
+        <h2>5. Third-Party Services</h2>
+        <ul>
+            <li><strong>YouTube Iframe Player API:</strong> The Application uses the YouTube Iframe Player API to embed and control YouTube videos. Your interaction with the YouTube player is subject to YouTube's Terms of Service and Google's Privacy Policy. When you play a video through the Application, data may be collected by YouTube/Google as described in their policies. We recommend you review their policies:
+                <ul>
+                    <li><a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener noreferrer">YouTube Terms of Service</a></li>
+                    <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Privacy Policy</a></li>
+                </ul>
+            </li>
+            <li><strong>FontAwesome & Google Fonts:</strong> We use FontAwesome for icons and Google Fonts for typography. These services may collect data as per their own privacy policies.</li>
+        </ul>
+
+        <h2>6. Your Choices and Rights</h2>
+        <ul>
+            <li><strong>Managing Consent:</strong> You can manage your consent for storing preferences (cue points, playlists, etc.) at any time using the "Manage Cookie Preferences" link in the footer of the Application or via the consent banner/modal. Choosing to reject or not consent to "Preferences & Functionality" storage will prevent the Application from saving these settings between sessions.</li>
+            <li><strong>Clearing Local Storage:</strong> You can clear any data stored by this Application in `localStorage` by:
+                <ul>
+                    <li>Using the "Reject All" option in the consent management interface (this will attempt to clear relevant `localStorage` keys).</li>
+                    <li>Manually clearing your browser's cache, cookies, and site data for this website. Instructions for this vary by browser.</li>
+                </ul>
+            </li>
+            <li><strong>Accessing Your Data:</strong> Since all preference data is stored locally, you can "access" it by observing the application's behavior (e.g., seeing your saved cue points). For a technical view, browser developer tools can be used to inspect `localStorage`.</li>
+        </ul>
+
+        <h2>7. Children's Privacy</h2>
+        <p>The Application is not intended for use by children under the age of 13 (or the relevant age of consent in your jurisdiction). We do not knowingly collect any personally identifiable information. If you believe a child has provided us with information, please contact us so we can address it.</p>
+
+        <h2>8. Changes to This Privacy Policy</h2>
+        <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date. You are advised to review this Privacy Policy periodically for any changes.</p>
+
+        <h2>9. Contact Us</h2>
+        <p>If you have any questions about this Privacy Policy, please contact us at: 
+            <a href="mailto:info@webdeck.online"> info@webdeck.online</a>.
+        </p>
+        
+        <div class="back-link-container">
+            <a href="index.html" class="subtle-button"><i class="fas fa-arrow-left"></i> Back to DJ App</a>
+        </div>
+    </div>
+
+    </body>
+</html>
